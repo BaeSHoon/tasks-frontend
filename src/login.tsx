@@ -1,29 +1,36 @@
 import { useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
-    axios.defaults.withCredentials = true;
 
-    axios
-      .post("/api/login", {
-        username: username,
-        password: password,
-      })
-      .then((_response) => {
-        window.location.href = "/";
-      })
-      .catch((error) => {
-        console.error("There was an error logging in:", error);
-        setError("Login failed. Please check your username and password.");
-      });
+    const login = async () => {
+      try {
+        const response = await fetch("/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        });
+        if (!response.ok) {
+          throw new Error("Login failed");
+        }
+      } catch (error: any) {
+        setError(error.message);
+      }
+    };
+    login();
   };
   return (
     <div>
@@ -31,8 +38,8 @@ const Login = () => {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Username"
-          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"

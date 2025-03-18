@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -7,8 +6,9 @@ function App() {
 
   useEffect(() => {
     const fetchProjects = async () => {
-      const response = await axios.get<Project[]>("/api/projects");
-      setProjectList(response.data);
+      const response = await fetch("/api/projects");
+      const data = await response.json();
+      setProjectList(data);
     };
     fetchProjects();
   }, []);
@@ -68,10 +68,17 @@ interface Todo {
 }
 
 const createProject = async (projectName: string) => {
-  const response = await axios.post<Project>("/api/projects", {
-    title: projectName,
+  const response = await fetch("/api/projects", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({
+      title: projectName,
+    }),
   });
-  const data = response.data;
+  const data: Project = await response.json();
   console.log(data);
 };
 
