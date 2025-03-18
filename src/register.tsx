@@ -1,6 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
-import { redirect } from "react-router-dom";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -17,19 +15,17 @@ const Register = () => {
       return;
     }
 
-    axios
-      .post("/api/register", {
+    fetch("/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
         email: email,
         password: password,
-      })
-      .then((response) => {
-        console.log("Registration successful:", response.data);
-        redirect("/login");
-      })
-      .catch((error) => {
-        console.error("There was an error registering:", error);
-        setError("Registration failed. Please try again.");
-      });
+      }),
+    });
   };
 
   return (
@@ -53,7 +49,6 @@ const Register = () => {
         />
         <button type="submit">Register</button>
       </form>
-      <button onClick={() => redirect("/login")}>Login</button>
       {error && <p>{error}</p>}
     </div>
   );
