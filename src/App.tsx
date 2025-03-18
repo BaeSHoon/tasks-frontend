@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 
 function App() {
@@ -15,10 +16,40 @@ function App() {
           value={projectName}
           onChange={(e) => setProjectName(e.target.value)}
         />
-        <button onClick={() => console.log(projectName)}>Create Project</button>
+        <button onClick={async () => await createProject(projectName)}>
+          Create Project
+        </button>
       </div>
     </>
   );
 }
+
+interface Project {
+  id?: number;
+  title: string;
+  milestones: Milestone[];
+  todos: Todo[];
+}
+
+interface Milestone {
+  id?: number;
+  title: string;
+  todos: Todo[];
+}
+
+interface Todo {
+  id?: number;
+  title: string;
+  description: string;
+  completed: boolean;
+}
+
+const createProject = async (projectName: string) => {
+  const response = await axios.post<Project>("/api/projects", {
+    title: projectName,
+  });
+  const data = response.data;
+  console.log(data);
+};
 
 export default App;
