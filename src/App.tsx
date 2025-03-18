@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ProjectCard from "./components/ProjectCard";
 
 function App() {
   const [projectName, setProjectName] = useState("");
@@ -38,23 +39,14 @@ function App() {
       </div>
       <div className="project-list">
         {projectList.map((project) => (
-          <div key={project.id}>
-            <h2>{project.title}</h2>
-            <div>
-              {project.milestones.map((milestone) => (
-                <div key={milestone.id}>
-                  <h3>{milestone.title}</h3>
-                </div>
-              ))}
-            </div>
-          </div>
+          <ProjectCard key={project.id} project={project} />
         ))}
       </div>
     </>
   );
 }
 
-interface Project {
+export interface Project {
   id?: number;
   title: string;
   milestones: Milestone[];
