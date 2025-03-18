@@ -3,12 +3,13 @@ import { useState, useEffect } from "react";
 interface UserEntity {
   id: string;
   email: string;
-  role: UserRole;
+  role: RoleEnum;
 }
 
-interface UserRole {
-  ADMIN: "ADMIN";
-  USER: "USER";
+enum RoleEnum {
+  ADMIN = "ADMIN",
+  USER = "USER",
+  ANONYMOUS = "ANONYMOUS",
 }
 
 const useAuth = () => {
@@ -25,7 +26,11 @@ const useAuth = () => {
         if (response.ok) {
           const userData: UserEntity = await response.json();
           setUser(userData);
-          setIsLoggedIn(true);
+          if (userData.role === RoleEnum.ANONYMOUS) {
+            setIsLoggedIn(false);
+          } else {
+            setIsLoggedIn(true);
+          }
         } else {
           setIsLoggedIn(false);
         }
