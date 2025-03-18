@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from "./App";
 import NavigationBar from "./components/NavigationBar";
-import Login from "./login";
+import Login from "./components/Login";
 import Register from "./register";
 
 function Root() {
