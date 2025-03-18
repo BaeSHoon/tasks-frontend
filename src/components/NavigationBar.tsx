@@ -39,7 +39,6 @@ const NavigationBar = () => {
                   border: "none",
                   cursor: "pointer",
                   padding: 0,
-                  fontSize: "inherit",
                 }}
               >
                 Logout
