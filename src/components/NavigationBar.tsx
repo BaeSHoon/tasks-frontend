@@ -17,6 +17,14 @@ const NavigationBar = () => {
             Projects
           </Link>
         </li>
+        <li>
+          <Link
+            to="/login"
+            style={{ color: "#61dafb", textDecoration: "none" }}
+          >
+            Login
+          </Link>
+        </li>
       </ul>
     </nav>
   );
