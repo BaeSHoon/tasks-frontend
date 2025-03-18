@@ -25,7 +25,14 @@ function App() {
           value={projectName}
           onChange={(e) => setProjectName(e.target.value)}
         />
-        <button onClick={async () => await createProject(projectName)}>
+        <button
+          onClick={async () => {
+            await createProject(projectName);
+            const response = await fetch("/api/projects");
+            const data = await response.json();
+            setProjectList(data);
+          }}
+        >
           Create Project
         </button>
       </div>
