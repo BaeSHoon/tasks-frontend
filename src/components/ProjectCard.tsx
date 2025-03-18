@@ -1,10 +1,13 @@
 import { Project } from "../App";
+import { Link } from "react-router-dom";
+
 const ProjectCard = ({ project }: { project: Project }) => {
   return (
     <div>
       <h2>{project.title}</h2>
-      <a>{project.milestones.length}</a>
-      <a>{project.todos.length}</a>
+      <Link to={`/projects/${project.id}`}>
+        <button>Detail</button>
+      </Link>
     </div>
   );
 };
