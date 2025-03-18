@@ -53,13 +53,13 @@ export interface Project {
   todos: Todo[];
 }
 
-interface Milestone {
+export interface Milestone {
   id?: number;
   title: string;
   todos: Todo[];
 }
 
-interface Todo {
+export interface Todo {
   id?: number;
   title: string;
   description: string;
