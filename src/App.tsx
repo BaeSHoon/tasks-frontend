@@ -1,8 +1,17 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const [projectName, setProjectName] = useState("");
+  const [projectList, setProjectList] = useState<Project[]>([]);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const response = await axios.get<Project[]>("/api/projects");
+      setProjectList(response.data);
+    };
+    fetchProjects();
+  }, []);
 
   return (
     <>
@@ -19,6 +28,20 @@ function App() {
         <button onClick={async () => await createProject(projectName)}>
           Create Project
         </button>
+      </div>
+      <div className="project-list">
+        {projectList.map((project) => (
+          <div key={project.id}>
+            <h2>{project.title}</h2>
+            <div>
+              {project.milestones.map((milestone) => (
+                <div key={milestone.id}>
+                  <h3>{milestone.title}</h3>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </>
   );
