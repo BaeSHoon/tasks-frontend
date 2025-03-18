@@ -16,6 +16,25 @@ const useAuth = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<UserEntity | null>(null);
 
+  const logout = async () => {
+    try {
+      const response = await fetch("/api/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        setUser(null);
+        setIsLoggedIn(false);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Logout error:", error);
+      return false;
+    }
+  };
+
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
@@ -43,7 +62,7 @@ const useAuth = () => {
     checkLoginStatus();
   }, []);
 
-  return { isLoggedIn, user };
+  return { isLoggedIn, user, logout };
 };
 
 export default useAuth;
