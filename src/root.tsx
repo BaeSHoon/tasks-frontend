@@ -6,9 +6,11 @@ function Root() {
   return (
     <BrowserRouter>
       <NavigationBar />
-      <Routes>
-        <Route path="/" element={<App />} />
-      </Routes>
+      <main>
+        <Routes>
+          <Route path="/" element={<App />} />
+        </Routes>
+      </main>
     </BrowserRouter>
   );
 }
