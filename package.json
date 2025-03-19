@@ -10,7 +10,6 @@
     "preview": "vite preview",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "pretest": "cypress install",
     "test": "cypress run --browser chrome --headless"
   },
   "dependencies": {

@@ -24,8 +24,6 @@ services:
     image: postgres:latest
     container_name: tasks-db
     restart: always
-    ports:
-      - "5432:5432"
     environment:
       - POSTGRES_DB=tasks
       - POSTGRES_USER=postgres
