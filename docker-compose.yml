@@ -1,9 +1,9 @@
 services:
   backend:
-    image: openjdk:17
+    image: ghcr.io/fish895623/tasks:latest
     container_name: tasks-backend
     ports:
-      - '8080:8080'
+      - "8080:8080"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/tasks
       - SPRING_DATASOURCE_USERNAME=postgres
