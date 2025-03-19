@@ -9,50 +9,21 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [22.x]
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: tasks
-        ports:
-          - 5437:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Setup Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: "temurin"
-          java-version: "17"
-
-      - name: Run backend server
-        run: |
-          git clone https://github.com/fish895623/tasks.git --depth 1
-          cd tasks
-          tmux new-session -d -s tasks-backend './gradlew bootRun'
+        uses: actions/checkout@v4
 
       - name: Install PNPM
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v3
         with:
           version: latest
           run_install: false
 
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 22
           cache: "pnpm"
           cache-dependency-path: "./pnpm-lock.yaml"
 
@@ -62,7 +33,7 @@ jobs:
           echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
 
       - name: Setup pnpm cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -70,7 +41,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Cache Cypress binary
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cypress-cache
         with:
           path: ~/.cache/Cypress
@@ -78,12 +49,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cypress-
 
+      - name: Start containers
+        run: docker compose up -d
+
       - name: Install dependencies
         run: pnpm install
 
-      - name: Verify and install Cypress if needed
-        run: |
-          pnpm cypress verify || pnpm cypress install
+      - name: Install Cypress binary
+        if: steps.cypress-cache.outputs.cache-hit != 'true'
+        run: npx cypress install
 
       - name: Cypress run
         uses: cypress-io/github-action@master
@@ -94,3 +68,8 @@ jobs:
           browser: chrome
           command: pnpm test
           install: false
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: coverage/lcov.info
+          token: ${{ secrets.CODECOV_TOKEN }}
