@@ -67,6 +67,9 @@ jobs:
           key: ${{ runner.os }}-cypress-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-cypress-
+      
+      - name: Start containers
+        run: docker compose up -d
 
       - name: Install dependencies
         run: pnpm install

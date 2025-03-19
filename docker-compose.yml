@@ -22,25 +22,8 @@ services:
       - POSTGRES_DB=tasks
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
-    ports:
-      - '5432:5432'
     volumes:
       - postgres-data:/var/lib/postgresql/data
-    networks:
-      - tasks-network
-
-  frontend:
-    image: node:22
-    container_name: tasks-frontend
-    working_dir: /app
-    volumes:
-      - ./task-frontend:/app
-    command: >
-      sh -c "pnpm install && pnpm build && pnpm start"
-    ports:
-      - '5173:5173'
-    depends_on:
-      - backend
     networks:
       - tasks-network
 
