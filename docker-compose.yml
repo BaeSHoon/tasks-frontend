@@ -9,7 +9,9 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-    depends_on: db
+    depends_on:
+      db:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/actuator"]
       interval: 10s
@@ -22,12 +24,19 @@ services:
     image: postgres:latest
     container_name: tasks-db
     restart: always
+    ports:
+      - "5432:5432"
     environment:
       - POSTGRES_DB=tasks
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - tasks-network
 
