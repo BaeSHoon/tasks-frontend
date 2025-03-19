@@ -19,7 +19,7 @@ jobs:
 
       - name: Run backend server
         run: |
-          gh repo clone tasks -- --depth 1
+          git clone https://github.com/fish895623/tasks.git --depth 1
           cd tasks
           tmux new-session -d -s tasks-backend './gradlew bootRun'
 
