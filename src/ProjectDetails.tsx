@@ -18,16 +18,10 @@ const ProjectDetails = () => {
       .then((data) => setTodos(data));
   }, []);
 
-  const handleAddTodo = () => {
-    fetch(`/api/todos`, {
-      method: "POST",
-      credentials: "include",
-    });
-  };
-
   return (
     <div>
       <h1>Project Details</h1>
+      <p>{id}</p>
       <button onClick={() => console.log("Add Todo Clicked")}>Add Todo</button>
       <ul>
         {todos.map((todo) => (
