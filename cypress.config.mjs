@@ -2,7 +2,7 @@ import { defineConfig } from "cypress";
 
 export default defineConfig({
   e2e: {
-    baseUrl: "http://localhost:5173",
+    baseUrl: process.env.CYPRESS_BASE_URL || "http://localhost:5173",
     async setupNodeEvents(on, config) {
       const coverageTask = await import("@cypress/code-coverage/task");
       coverageTask.default(on, config);
@@ -18,7 +18,9 @@ export default defineConfig({
   },
   env: {
     codeCoverage: {
-      url: "http://localhost:5173/__coverage__",
+      url: process.env.CYPRESS_BASE_URL
+        ? `${process.env.CYPRESS_BASE_URL}/__coverage__`
+        : "http://localhost:5173/__coverage__",
     },
   },
 });

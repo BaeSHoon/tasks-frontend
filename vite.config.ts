@@ -11,6 +11,16 @@ export default defineConfig({
       include: "src/*",
       extension: [".ts", ".tsx"],
     }),
+    {
+      name: "export-server-info",
+      configureServer(_server) {
+        // server.httpServer?.once("listening", () => {
+        //   process.env.CYPRESS_BASE_URL = `http://localhost:${
+        //     (server.httpServer?.address() as AddressInfo).port
+        //   }`;
+        // });
+      },
+    },
   ],
   server: {
     proxy: {
