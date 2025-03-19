@@ -60,6 +60,18 @@ jobs:
         run: |
           pnpm cypress verify || pnpm cypress install
 
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Run backend server
+        run: |
+          git clone https://github.com/fish895623/tasks.git --depth 1
+          cd tasks
+          ./gradlew bootRun &
+
       - name: Cypress run
         uses: cypress-io/github-action@master
         with:
