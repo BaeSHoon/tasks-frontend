@@ -44,8 +44,20 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
+      - name: Cache Cypress binary
+        uses: actions/cache@v3
+        id: cypress-cache
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-cypress-
+
       - name: Install dependencies
         run: pnpm install
+
+      - name: Verify Cypress installation
+        run: npx cypress verify
 
       - name: Cypress run
         uses: cypress-io/github-action@master
@@ -55,3 +67,4 @@ jobs:
           wait-on: "http://localhost:5173"
           browser: chrome
           command: pnpm test
+          install: false
