@@ -6,5 +6,5 @@ import Root from "./root.tsx";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Root />
-  </StrictMode>,
+  </StrictMode>
 );
