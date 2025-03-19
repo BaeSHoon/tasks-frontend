@@ -7,9 +7,20 @@ on:
     branches: [master]
 
 jobs:
+  background:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Run backend server
+        run: |
+          git clone https://github.com/fish895623/tasks.git --depth 1
+          cd tasks
+          nohup ./gradlew bootRun &
+
   cypress-run:
     runs-on: ubuntu-latest
-
+    needs: background
     strategy:
       matrix:
         node-version: [22.x]
@@ -65,12 +76,6 @@ jobs:
         with:
           distribution: "temurin"
           java-version: "17"
-
-      - name: Run backend server
-        run: |
-          git clone https://github.com/fish895623/tasks.git --depth 1
-          cd tasks
-          ./gradlew bootRun &
 
       - name: Cypress run
         uses: cypress-io/github-action@master
