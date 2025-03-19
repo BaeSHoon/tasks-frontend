@@ -47,24 +47,10 @@ jobs:
         run: pnpm install
 
       - name: Cypress run
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@master
         with:
           build: pnpm build
           start: pnpm dev
           wait-on: "http://localhost:5173"
           browser: chrome
           command: pnpm test
-
-      - name: Upload screenshots on failure
-        uses: actions/upload-artifact@v3
-        if: failure()
-        with:
-          name: cypress-screenshots
-          path: cypress/screenshots
-
-      - name: Upload videos
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: cypress-videos
-          path: cypress/videos
