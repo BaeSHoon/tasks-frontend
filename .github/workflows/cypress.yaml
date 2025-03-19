@@ -17,6 +17,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
       - name: Run backend server
         run: |
           git clone https://github.com/fish895623/tasks.git --depth 1
@@ -64,12 +70,6 @@ jobs:
       - name: Verify and install Cypress if needed
         run: |
           pnpm cypress verify || pnpm cypress install
-
-      - name: Setup Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: "temurin"
-          java-version: "17"
 
       - name: Cypress run
         uses: cypress-io/github-action@master
