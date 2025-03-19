@@ -12,11 +12,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Run backend server
-        run: |
-          git clone https://github.com/fish895623/tasks.git --depth 1
-          cd tasks
-          nohup ./gradlew bootRun &
 
   cypress-run:
     runs-on: ubuntu-latest
@@ -28,6 +23,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Run backend server
+        run: |
+          gh repo clone fish895623/tasks --depth 1
+          cd tasks
+          tmux new-session -d -s tasks-backend './gradlew bootRun'
 
       - name: Install PNPM
         uses: pnpm/action-setup@v2
