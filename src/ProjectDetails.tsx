@@ -9,18 +9,25 @@ const ProjectDetails = () => {
   useEffect(() => {
     fetch(`/api/todos`, {
       method: "GET",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
     })
       .then((response) => response.json())
       .then((data) => setTodos(data));
-  }, [id]);
+  }, []);
+
+  const handleAddTodo = () => {
+    fetch(`/api/todos`, {
+      method: "POST",
+      credentials: "include",
+    });
+  };
 
   return (
     <div>
       <h1>Project Details</h1>
-      <p>Project ID: {id}</p>
       <button onClick={() => console.log("Add Todo Clicked")}>Add Todo</button>
       <ul>
         {todos.map((todo) => (
