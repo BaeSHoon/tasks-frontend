@@ -3,11 +3,18 @@ import { defineConfig } from "cypress";
 export default defineConfig({
   e2e: {
     baseUrl: "http://localhost:5173",
-    setupNodeEvents(on, config) {
-      require("@cypress/code-coverage/task")(on, config);
+    async setupNodeEvents(on, config) {
+      const coverageTask = await import("@cypress/code-coverage/task");
+      coverageTask.default(on, config);
       return config;
     },
     experimentalStudio: true,
+  },
+  component: {
+    devServer: {
+      framework: "react",
+      bundler: "vite",
+    },
   },
   env: {
     codeCoverage: {

@@ -9,7 +9,7 @@ export default defineConfig({
     istanbul({
       cypress: true,
       include: "src/*",
-      extension: [".js", ".ts", ".jsx", ".tsx"],
+      extension: [".ts", ".tsx"],
     }),
   ],
   server: {
