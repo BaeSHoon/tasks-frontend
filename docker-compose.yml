@@ -1,6 +1,6 @@
 services:
   backend:
-    image: ghcr.io/fish895623/tasks:latest
+    image: ghcr.io/baeshoon/tasks-backend:latest
     pull_policy: always
     container_name: tasks-backend
     ports:
