@@ -56,8 +56,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Verify Cypress installation
-        run: npx cypress verify
+      - name: Verify and install Cypress if needed
+        run: |
+          pnpm cypress verify || pnpm cypress install
 
       - name: Cypress run
         uses: cypress-io/github-action@master
