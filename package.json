@@ -10,9 +10,11 @@
     "preview": "vite preview",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
+    "pretest": "cypress install",
     "test": "cypress run --browser chrome --headless"
   },
   "dependencies": {
+    "concurrently": "^9.1.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.3.0",
